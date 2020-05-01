@@ -15,9 +15,9 @@ def main():
     data_coach = pd.read_csv(r'basketball_coaches.csv')
     data_draft = pd.read_csv(r'basketball_draft.csv')
     data_hall_of_fame = pd.read_csv(r'basketball_hof.csv')
-    data_season = pd.read_csv(r'/Seasons_Stats.csv/nba-players-stats/Seasons_Stats.csv')
+    data_season = pd.read_csv(r'Seasons_Stats.csv')
     
-    coach = pd.DataFrame(data_coach,columns = ['coach_name','year','team_name','league_id','stint','won','lost','post_win','post_loss'])
+    coach = pd.DataFrame(data_coach,columns = ['coachID','year','tmID','lgID','stint','won','lost','post_wins','post_losses'])
     
     draft = pd.DataFrame(data_draft,columns = ['draft_year','draft_round','draft_selection','draft_overall','team_id','firstname','lastname','suffix','player_id','college','league_id'])
     
@@ -25,25 +25,12 @@ def main():
     
     seasons = pd.DataFrame(data_season,columns = ['year','player_name','position','age','team','games','games_start','min_play','player_efficiency','true_shot','threepercent','freethrow_percent','off_reb_per','def_reb_per','all_reb_per','ass_per','steal_per','block_per','turnover_per','usage_per','fieldgoal_tot','fieldgoal_attempt','fg_per','twopoint_per','threepoint_per','tot_reb','assist','steals','blocks','points','personal_fouls'])
     
-    
-    for i in coach.itertuples():
-        cursor.execute('''
-                INSERT INTO database_final.dbo.coaches (coach_id, year_, team_id,league_id,stint,won,lost,post_wins,post_loss)
-                VALUES (?,?,?,?,?,?,?,?,?)
-                ''',
-                i.coach_name,
-                i.year,
-                i.team_name,
-                i.league_id,
-                i.stint,
-                i.won,
-                i.lost,
-                i.post_win,
-                i.post_loss
-                )
 
-    
-    
+    for i in coach.itertuples():
+        query = "INSERT INTO coaches(coach_id, year_, team_id,league_id,stint,won,lost,post_wins,post_loss) VALUES('%s',%s,'%s','%s',%d,%d,%d,%d,%d)"%(i.coachID,i.year,i.tmID, i.lgID, i.stint, i.won, i.lost, i.post_wins, i.post_losses)
+        print(query)
+        cursor.execute(query)   
+
     for i in draft.itertuples():
         cursor.execute('''
                 INSERT INTO database_final.dbo.draft (draft_year,draft_round,draft_selection,draft_overall,team_id,first_name,last_name,suffix_name,player_id,draft_from_college,league_id)
@@ -113,6 +100,7 @@ def main():
                 i.blocks,
                 i.points,
                 i.personal_fouls
+        )
        
 
    
