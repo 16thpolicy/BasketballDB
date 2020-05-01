@@ -1,7 +1,6 @@
 import wget
 from os import mkdir
 from shutil import rmtree
-import urllib.request
 import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -16,6 +15,5 @@ with open('code/datasets.txt') as datasets_file:
     mkdir('code/datasets')
 
     for u in urls:
-        #f = urllib.request.urlretrieve(u.rstrip())
         f = wget.download(u.rstrip(),'code/datasets/')
-        print(f)
+        #print(f)

@@ -19,6 +19,7 @@ CREATE TABLE draft(
     draft_selection Int,
     draft_overall Int,
     team_id varchar(5),
+    --full_name varchar(127),
     first_name varchar(25),
     last_name varchar(25),
     suffix_name varchar(15),
