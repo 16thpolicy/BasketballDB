@@ -1,1 +1,5 @@
-https://data.ny.gov/api/views/3cij-nwhw/rows.csv?accessType=DOWNLOAD&sorting=true
+https://raw.githubusercontent.com/16thpolicy/BasketballDB/master/basketball_hof.csv
+https://raw.githubusercontent.com/16thpolicy/BasketballDB/master/basketball_draft.csv
+https://raw.githubusercontent.com/16thpolicy/BasketballDB/master/basketball_coaches.csv
+https://raw.githubusercontent.com/16thpolicy/BasketballDB/master/Seasons_Stats.csv
+
