@@ -32,6 +32,10 @@ def main():
     i.close()
     conn.commit()
     
+
+    #might Need schema which connects coachID with Coach full names HERE!!!!
+
+
     #Load in from coaches csv
     with open('datasets/basketball_coaches.csv','r') as i:
         reader = csv.reader(i)
