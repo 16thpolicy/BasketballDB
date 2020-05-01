@@ -23,8 +23,13 @@ def main():
     with open('datasets/basketball_draft.csv','r') as i:
         reader = csv.reader(i)
         next(i)
+        itr=0
         for j in reader:
-            cursor.execute("INSERT INTO draft VALUES (%s, %s, %s, %s,%s, %s,%s, %s,%s,%s,%s)",j)
+            j[5]=j[5]+" "+j.pop(6)
+            if(not itr):
+                print(j)
+            itr+=1
+            cursor.execute("INSERT INTO draft VALUES (%s, %s, %s, %s,%s, %s, %s,%s,%s,%s)",j)
     i.close()
     conn.commit()
     
