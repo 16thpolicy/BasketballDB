@@ -12,6 +12,8 @@ def main():
     
     conn = psycopg2.connect(connection_string)
     cursor = conn.cursor()
+
+    #Load in from coaches csv
     with open('datasets/basketball_coaches.csv','r') as i:
         reader = csv.reader(i)
         next(i)
@@ -20,19 +22,17 @@ def main():
     i.close()
     conn.commit()
     
+    #Load in from basketball draft csv
     with open('datasets/basketball_draft.csv','r') as i:
         reader = csv.reader(i)
         next(i)
-        itr=0
         for j in reader:
             j[5]=j[5]+" "+j.pop(6)
-            if(not itr):
-                print(j)
-            itr+=1
             cursor.execute("INSERT INTO draft VALUES (%s, %s, %s, %s,%s, %s, %s,%s,%s,%s)",j)
     i.close()
     conn.commit()
     
+    #Load in from basketball hof
     with open('datasets/basketball_hof.csv','r') as i:
         reader = csv.reader(i)
         next(i)
@@ -41,6 +41,7 @@ def main():
     i.close()
     conn.commit()
     
+    #Load in from Seasons Stats
     with open('datasets/Seasons_Stats.csv','r') as i:
         reader = csv.reader(i)
         next(i)
@@ -52,16 +53,16 @@ def main():
     
     
 
-    query_1 = "Select * from draft"
-    cursor.execute(query_1)
-    print(cursor.fetchone())
+    # query_1 = "Select * from draft"
+    # cursor.execute(query_1)
+    # print(cursor.fetchone())
     
     # example of fetching data
     #print("finish loading data")
-    query = "Select * from season Where season.year_ ='2017'"
-    cursor.execute(query)
-    rows = cursor.fetchone()
-    print(rows)
+    # query = "Select * from season Where season.year_ ='2017'"
+    # cursor.execute(query)
+    # rows = cursor.fetchone()
+    # print(rows)
 
     conn.close()
 if __name__ == "__main__":
