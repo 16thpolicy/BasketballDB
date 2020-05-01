@@ -12,15 +12,6 @@ def main():
     
     conn = psycopg2.connect(connection_string)
     cursor = conn.cursor()
-
-    #Load in from coaches csv
-    with open('datasets/basketball_coaches.csv','r') as i:
-        reader = csv.reader(i)
-        next(i)
-        for j in reader:
-            cursor.execute("INSERT INTO coaches VALUES (%s, %s, %s, %s,%s, %s, %s, %s, %s)",j)
-    i.close()
-    conn.commit()
     
     #Load in from basketball draft csv
     with open('datasets/basketball_draft.csv','r') as i:
@@ -41,6 +32,15 @@ def main():
     i.close()
     conn.commit()
     
+    #Load in from coaches csv
+    with open('datasets/basketball_coaches.csv','r') as i:
+        reader = csv.reader(i)
+        next(i)
+        for j in reader:
+            cursor.execute("INSERT INTO coaches VALUES (%s, %s, %s, %s,%s, %s, %s, %s, %s)",j)
+    i.close()
+    conn.commit()
+
     #Load in from Seasons Stats
     with open('datasets/Seasons_Stats.csv','r') as i:
         reader = csv.reader(i)
