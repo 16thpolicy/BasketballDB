@@ -51,12 +51,11 @@ def main():
     
     coach = pd.DataFrame(data_coach,columns = ['coachID','year','tmID','lgID','stint','won','lost','post_wins','post_losses'])
     
-    draft = pd.DataFrame(data_draft,columns = ['draft_year','draft_round','draft_selection','draft_overall','team_id','firstname','lastname','suffix','player_id','college','league_id'])
+    draft = pd.DataFrame(data_draft,columns = ['draftYear','draftRound','draftSelection','draftOverall','tmID','firstName','lastName','suffixName','playerID','draftFrom','lgID'])
     
-    hall_of_fame = pd.DataFrame(data_hall_of_fame,columns = ['year','hall_of_fame_id','name','category'])
+    hall_of_fame = pd.DataFrame(data_hall_of_fame,columns = ['year','hofID','name','category'])
     
-    seasons = pd.DataFrame(data_season,columns = ['year','player_name','position','age','team','games','games_start','min_play','player_efficiency','true_shot','threepercent','freethrow_percent','off_reb_per','def_reb_per','all_reb_per','ass_per','steal_per','block_per','turnover_per','usage_per','fieldgoal_tot','fieldgoal_attempt','fg_per','twopoint_per','threepoint_per','tot_reb','assist','steals','blocks','points','personal_fouls'])
-    
+    seasons = pd.DataFrame(data_season,columns = ['Year','Player','Pos','Age','Tm','G','GS','MP','PER','TS%','3PAr','FTr','ORB%','DRB%','TRB%','AST%','STL%','BLK%','TOV%','USG%','blanl','OWS','DWS','WS','WS/48','blank2','OBPM','DBPM','BPM','VORP','FG','FGA','FG%','3P','3PA','3P%','2P','2PA','2P%','eFG%','FT','FTA','FT%','ORB','DRB','TRB','AST','STL','BLK','TOV','PF','PTS'])
 
     for i in coach.itertuples():
         query = "INSERT INTO coaches(coach_id, year_, team_id,league_id,stint,won,lost,post_wins,post_loss) VALUES('%s',%s,'%s','%s',%d,%d,%d,%d,%d)"%(i.coachID,i.year,i.tmID, i.lgID, i.stint, i.won, i.lost, i.post_wins, i.post_losses)
@@ -64,75 +63,63 @@ def main():
         cursor.execute(query)   
 
     for i in draft.itertuples():
-        cursor.execute('''
-                INSERT INTO database_final.dbo.draft (draft_year,draft_round,draft_selection,draft_overall,team_id,first_name,last_name,suffix_name,player_id,draft_from_college,league_id)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?)
-                ''',
-                i.draft_year,
-                i.draft_round,
-                i.draft_selection,
-                i.draft_overall,
-                i.team_id,
-                i.firstname,
-                i.lastname,
-                i.suffix,
-                i.player_id,
-                i.college,
-                i.league_id
-                )
+        query = "INSERT INTO database_final.dbo.draft (draft_year,draft_round,draft_selection,draft_overall,team_id,first_name,last_name,suffix_name,player_id,draft_from_college,league_id)\
+                VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s,%s,%s)"%(i.draftYear, i.draftRound, i.draftSelection, i.draftOverall, i.tmID, i.firstName, i.lastName, i.suffixName, i.playerID, i.draftFrom, i.lgID)
+        print(query)
+        cursor.execute()
        
    
     
-    for i in hall_of_fame.itertuples():
-        cursor.execute('''
-                INSERT INTO database_final.dbo.hall_of_fame (year_,hall_of_fame_id,name,category)
-                VALUES (?,?,?,?)
-                ''',
-                i.year,
-                i.hall_of_fame_id,
-                i.name,
-                i.category
-                )
+    # for i in hall_of_fame.itertuples():
+    #     cursor.execute('''
+    #             INSERT INTO database_final.dbo.hall_of_fame (year_,hall_of_fame_id,name,category)
+    #             VALUES (?,?,?,?)
+    #             ''',
+    #             i.year,
+    #             i.hall_of_fame_id,
+    #             i.name,
+    #             i.category
+    #             )
         
     
     
-    for i in seasons.itertuples():
-        cursor.execute('''
-                INSERT INTO database_final.dbo.season (year_, player_name, position,age_ ,team_id ,games ,games_started ,minute_played ,player_efficiency ,true_shooting ,three_point_attempt_percentage ,freethrow_percentage,offensive_rebound_percentage ,defensive_rebound_percentage ,total_rebound_percentage ,assist_percentage ,steal_percentage ,block_percentage ,turnover_percentage ,usage_percentage ,fieldgoal ,fieldgoal_attempt ,fieldgoal_percentage ,twopoint_percentage ,threepoint_percentage ,total_rebounds ,assist ,steals ,blocks ,points ,personal_fouls)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-                ''',
-                i.year,
-                i.player_name,
-                i.position,
-                i.age,
-                i.team,
-                i.games,
-                i.games_start,
-                i.min_play,
-                i.player_efficiency,
-                i.true_shot,
-                i.threepercent,
-                i.freethrow_percent,
-                i.off_reb_per,
-                i.def_reb_per,
-                i.all_reb_per,
-                i.ass_per,
-                i.steal_per,
-                i.block_per,
-                i.turnover_per,
-                i.usage_per,
-                i.fieldgoal_tot,
-                i.fieldgoal_attempt,
-                i.fg_per,
-                i.twopoint_per,
-                i.threepoint_per,
-                i.tot_reb,
-                i.assist,
-                i.steals,
-                i.blocks,
-                i.points,
-                i.personal_fouls
-        )
+    # for i in seasons.itertuples():
+    #     cursor.execute('''
+    #             INSERT INTO database_final.dbo.season (year_, player_name, position,age_ ,team_id ,games ,games_started ,minute_played ,player_efficiency ,true_shooting ,three_point_attempt_percentage ,freethrow_percentage,offensive_rebound_percentage ,defensive_rebound_percentage ,total_rebound_percentage ,assist_percentage ,steal_percentage ,block_percentage ,turnover_percentage ,usage_percentage ,fieldgoal ,fieldgoal_attempt ,fieldgoal_percentage ,twopoint_percentage ,threepoint_percentage ,total_rebounds ,assist ,steals ,blocks ,points ,personal_fouls)
+    #             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    #             ''',
+    #             i.year,
+    #             i.player_name,
+    #             i.position,
+    #             i.age,
+    #             i.team,
+    #             i.games,
+    #             i.games_start,
+    #             i.min_play,
+    #             i.player_efficiency,
+    #             i.true_shot,
+    #             i.threepercent,
+    #             i.freethrow_percent,
+    #             i.off_reb_per,
+    #             i.def_reb_per,
+    #             i.all_reb_per,
+    #             i.ass_per,
+    #             i.steal_per,
+    #             i.block_per,
+    #             i.turnover_per,
+    #             i.usage_per,
+    #             i.fieldgoal_tot,
+    #             i.fieldgoal_attempt,
+    #             i.fg_per,
+    #             i.twopoint_per,
+    #             i.threepoint_per,
+    #             i.tot_reb,
+    #             i.assist,
+    #             i.steals,
+    #             i.blocks,
+    #             i.points,
+    #             i.personal_fouls
+    #     )
        
 
    
