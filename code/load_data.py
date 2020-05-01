@@ -47,17 +47,16 @@ def main():
     
     
 
-    query_1 = "Select * from draft LIMIT 1"
+    query_1 = "Select * from draft"
     cursor.execute(query_1)
-    print(cursor.fetchall())
+    print(cursor.fetchone())
     
     # example of fetching data
     #print("finish loading data")
-    #query = "Select * from season Where season.year_ ='2017'"
-    #cursor.execute(query)
-    #rows = cursor.fetchall()
-    #for i in rows:
-    #    print(i,"\n")
+    query = "Select * from season Where season.year_ ='2017'"
+    cursor.execute(query)
+    rows = cursor.fetchone()
+    print(rows)
 
     conn.close()
 if __name__ == "__main__":
@@ -66,4 +65,5 @@ if __name__ == "__main__":
     cursor = conn.cursor()
     cursor.execute(open("schema.sql", "r").read())
     conn.commit()
+    
     main()
