@@ -63,8 +63,9 @@ class Basketball():
         #given year and player
         #return season detail of that player
         #if player did not have stats that year return [False] otherwise return an array of stats
-        query = "Select * From season Where player_name = %s and year_ = %s Order By ASC"
         cursor = conn.cursor()
+        query = "Select * From season Where player_name = %s and year_ = %s Order By ASC"
+        
         if(cursor.execute(query,(player,year)) != NULL):
             return(cursor.fetchone())
         else:
