@@ -9,14 +9,30 @@ class Basketball():
 
     def was_player(self, coach_name):
         #given coach_name return True if that coach was a player otherwise False
-        return False
+        coach = coach_name.lower()
+        query = "Select player_name From season Where LOWER(player_name) = %s"
+        cursor = self.conn.cursor()
+        cursor.execute(query%(coach))
+        first_row = cursor.fetchone()
+        if len(first_row) != 0:
+            return True
+        else:
+            return False
     
     def searchplayers(self, player):
         #given part of a player_name use LIKE to find all names containing '%player%'
         #returns a list of player names in alphabetical decending order
-        if player=='0':
-            return []
-        return ["Player1","Player2","Player3"]
+        p = player.replace("'","\\'")
+        query = "Select DISTINCT player_name From season Where player_name LIKE '%%%s%%' ORDER BY player_name DESC"
+        cursor = self.conn.cursor()
+        cursor.execute(query%(p))
+        player_names = cursor.fetchall()
+        if len(player_names) != 0:
+            player_list = []
+            for p in player_names:
+                player_list.append(p[0])
+            return player_list
+        return []
 
     def coach_teach_most_hof(self):
         #Which coach taught the most hall of fame players
