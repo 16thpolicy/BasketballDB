@@ -63,9 +63,8 @@ class Basketball():
         #given year and player
         #return season detail of that player
         #if player did not have stats that year return [False] otherwise return an array of stats
-        cursor = conn.cursor()
         query = "Select * From season Where player_name = %s and year_ = %s Order By ASC"
-        
+        cursor = conn.cursor()
         if(cursor.execute(query,(player,year)) != NULL):
             return(cursor.fetchone())
         else:
@@ -84,7 +83,7 @@ class Basketball():
         #given a playername return list of teams alphabetical order desc of all teams they were in
         cursor = self.conn.cursor();
         p=player.replace("'","\\'")
-        query = "SELECT DISTINCT Tm AS Team FROM Season_stats WHERE Season_stats.player = '%s' ORDER BY Team DESC"
+        query = "SELECT DISTINCT team_id AS Team FROM season WHERE Season.player_name = '%s' ORDER BY Team DESC"
         cursor.execute(query%(p))
         teams_played = cursor.fetchall()
         return teams_played
@@ -93,7 +92,7 @@ class Basketball():
         #given player name return overall per
         cursor = self.conn.cursor();
         p=player.replace("'","\\'")
-        query = "SELECT AVG(Season_stats.PER) FROM Season_stats WHERE Season_stats.player = '%s'"
+        query = "SELECT AVG(season.player_efficiency) FROM season WHERE season.player_name = '%s'"
         cursor.execute(query%(p))
         overall_per = cursor.fetchall()
         return overall_per
@@ -109,4 +108,3 @@ class Basketball():
         #return year when they were inducted into HOF
         #else return False
         return False
-
