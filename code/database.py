@@ -51,10 +51,10 @@ class Basketball():
         
         #gets the coach id of most taught hof players
         answer = max(coach_player_dict,key = coach_player_dict.get)
+        ans = answer.replace("'","\\'")
+        query_check_coach_name = "Select player_name from season Where player_name = '%s'"
         
-        query_check_coach_name = "Select player_name from season Where player_name = %s"
-        
-        if(cursor.execute(query_check_coach_name,(answer)) != NULL):
+        if(cursor.execute(query_check_coach_name%(ans)) != NULL):
             return (cursor.fetchone())
         else:
             return False
@@ -63,9 +63,12 @@ class Basketball():
         #given year and player
         #return season detail of that player
         #if player did not have stats that year return [False] otherwise return an array of stats
-        query = "Select * From season Where player_name = %s and year_ = %s Order By ASC"
         cursor = conn.cursor()
-        if(cursor.execute(query,(player,year)) != NULL):
+        player = player.replace("'","\\'")
+        year = year.replace("'","\\'")
+        query = "Select * From season Where player_name = '%s' and year_ = %d Order By ASC"
+        
+        if(cursor.execute(query%(player,year)) != NULL):
             return(cursor.fetchone())
         else:
             return False
@@ -107,4 +110,11 @@ class Basketball():
     def hof(self, name):
         #return year when they were inducted into HOF
         #else return False
-        return False
+        cursor = self.conn.cursor()
+        name = name.replace("'","\\'")
+        query = "Select year_ from hall_of_fame Where hall_of_fame.name = '%s'"
+        if(cursor.execute(query%(name)) != NULL):
+            return cursor.fetchone()
+        else:
+            return False
+
