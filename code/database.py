@@ -31,15 +31,27 @@ class Basketball():
     
     def player_draft(self,player):
         #given player name return draft college and year
-        return ['RPI',2020]
+        cursor = self.conn.cursor();
+        query = "SELECT Basketball_draft.year, Basketball_draft.draftFrom AS College FROM Basketball_draft WHERE Basketball_draft.full_name =%s"
+        cursor.execute(query(player))
+        draft_info = cursor.fetchall()
+        return draft_info
     
     def teamsplayed(self,player):
         #given a playername return list of teams alphabetical order desc of all teams they were in
-        return []
+        cursor = self.conn.cursor();
+        query = "SELECT DISTINCT Tm AS Team FROM Season_stats WHERE Season_stats.player = %s ORDER BY Team DESC"
+        cursor.execute(query(player))
+        teams_played = cursor.fetchall()
+        return teams_played
     
     def find_overall_per(self,player):
         #given player name return overall per
-        return 2
+        cursor = self.conn.cursor();
+        query = "SELECT AVG(Season_stats.PER) FROM Season_stats WHERE Season_stats.player = %s"
+        cursor.execute(query(player))
+        overall_per = cursor.fetchall()
+        return overall_per
 
     def coach_team_improve(self,coach,team):
         #if the coach taught this team, take player stats from 1 season before and the season the coach was introduced 
