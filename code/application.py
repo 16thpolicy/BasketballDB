@@ -11,7 +11,7 @@ while(exit_):
     category = 0
     while(category == 0):
         try:
-            category = int(input("Please select a category: \n 1) Players\n 2) Coaches\n 3) Exit\n(Enter an integer): "))
+            category = int(input("Please select a category (Enter an integer): \n 1) Players\n 2) Coaches\n 3) Exit\n=> "))
             if(category not in range(1,4)):
                 print("Invalid: selected number is not within range of categories\n")
                 category = 0
@@ -24,7 +24,7 @@ while(exit_):
     elif(category==1): #player
         player = ''
         while(player == '' and MM):
-            player = str(input("\nWhich player do you want to search for? (Enter any part of a name): "))
+            player = str(input("\nWhich player do you want to search for? (Enter any part of a name)\n=> "))
             #remember to steralize input and change case-senitivity using Lower
             namelist = Bball.searchplayers(player) #return list of player names LIKE given string
             namelistrange = range(1,len(namelist)+1)
@@ -38,7 +38,7 @@ while(exit_):
                     print(" %d) %s"%(i,namelist[i-1]))
                 print(" %d) Main Menu"%(len(namelist)+1))
                 try: #user selects player
-                    p_number = int(input("\nWhich player would you like to explore? (Enter an integer): "))
+                    p_number = int(input("\nWhich player would you like to explore? (Enter an integer)\n=> "))
                     if(p_number == len(namelist)+1):
                         MM=0
                         continue
@@ -46,19 +46,41 @@ while(exit_):
                         print("Invalid: selected number is not within range of players")
                         p_number = 0
                         player = ''
+                        continue
                 except:
                     print("Invalid: value entered was not a number")
+                    continue
                 p_info_choice = 0
                 #prob another while loop
-                print("\nWhich of these information would you like to know? (Enter an integer): ")
-                print(" 1) Enter a season for stat information")
-                print(" 2) When and where was %s drafted"%(namelist[p_number]))
-                print(" 3) Which teams %s played for"%(namelist[p_number]))
-                p_info_choice = int(input("=> "))
-                
-                #what do you want to learn about this player ==> namelist[p_number]
-
-        print("gets here!")
+                while(p_info_choice == 0 and MM):
+                    print("\nWhich of these information would you like to know? (Enter an integer): ")
+                    print(" 1) Enter a season for stat information")
+                    print(" 2) When and where was %s drafted"%(namelist[p_number-1]))
+                    print(" 3) Which teams %s played for"%(namelist[p_number-1]))
+                    print(" 4) Overall PER")
+                    print(" 5) Main Menu")
+                    try:
+                        p_info_choice = int(input("=> "))
+                        if(p_info_choice == 5):
+                            MM=0
+                            continue
+                        elif(p_info_choice not in range(1,6)):
+                            print("Invalid: selected number is not within range of choices")
+                            p_info_choice =0
+                            continue
+                    except:
+                        print("Invalid: value entered was not a number")
+                        continue
+                if(p_info_choice==1):
+                    print("[input season stats here]")
+                elif(p_info_choice==2):
+                    print("[draft info here]")
+                elif(p_info_choice==3):
+                    print("[team info here]")
+                elif(p_info_choice==4):
+                    print("[overall per here]")
+                print("returning to main menu\n")
+                MM=0
 
     else: #coaches
         break
