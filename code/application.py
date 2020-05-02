@@ -5,6 +5,8 @@ connection_string = "host='localhost' dbname='database_final' user='database_fin
 
 Bball = database.Basketball(connection_string)
 
+print(Bball.player_draft("Marvin Delph"))
+
 print("This program will tell you some specific information about basketball, players and coaches")
 exit_ = 1
 while(exit_):

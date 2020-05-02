@@ -32,24 +32,27 @@ class Basketball():
     def player_draft(self,player):
         #given player name return draft college and year
         cursor = self.conn.cursor();
-        query = "SELECT Basketball_draft.year, Basketball_draft.draftFrom AS College FROM Basketball_draft WHERE Basketball_draft.full_name =%s"
-        cursor.execute(query(player))
+        p=player.replace("'","\\'")
+        query = "SELECT draft_year, draft_from_college FROM draft WHERE full_name = '%s'"
+        cursor.execute(query%(p))
         draft_info = cursor.fetchall()
         return draft_info
     
     def teamsplayed(self,player):
         #given a playername return list of teams alphabetical order desc of all teams they were in
         cursor = self.conn.cursor();
-        query = "SELECT DISTINCT Tm AS Team FROM Season_stats WHERE Season_stats.player = %s ORDER BY Team DESC"
-        cursor.execute(query(player))
+        p=player.replace("'","\\'")
+        query = "SELECT DISTINCT Tm AS Team FROM Season_stats WHERE Season_stats.player = '%s' ORDER BY Team DESC"
+        cursor.execute(query%(p))
         teams_played = cursor.fetchall()
         return teams_played
     
     def find_overall_per(self,player):
         #given player name return overall per
         cursor = self.conn.cursor();
-        query = "SELECT AVG(Season_stats.PER) FROM Season_stats WHERE Season_stats.player = %s"
-        cursor.execute(query(player))
+        p=player.replace("'","\\'")
+        query = "SELECT AVG(Season_stats.PER) FROM Season_stats WHERE Season_stats.player = '%s'"
+        cursor.execute(query%(p))
         overall_per = cursor.fetchall()
         return overall_per
 
