@@ -53,7 +53,7 @@ while(exit_):
                 print("\nWhich of these information would you like to know? (Enter an integer): ")
                 print(" 1) Enter a season for stat information")
                 print(" 2) When and where was %s drafted"%(namelist[p_number]))
-                print(" 3) Which teams %s played played for"%(namelist[p_number]))
+                print(" 3) Which teams %s played for"%(namelist[p_number]))
                 p_info_choice = int(input("=> "))
                 
                 #what do you want to learn about this player ==> namelist[p_number]
@@ -63,7 +63,7 @@ while(exit_):
     else: #coaches
         break
         #if the coach was a player
-            #season stats as a player
+            #overall stats as a player
             #where were they drafted
             #teams they played for
         #Did they improve these teams after their first year?:
