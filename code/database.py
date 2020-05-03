@@ -200,3 +200,8 @@ class Basketball():
         else:
             return False
 
+
+
+s = "SELECT d.full_name, d.player_id FROM draft as d, hall_of_fame as h WHERE d.full_name = h.name;"
+#returns list of names in hall of fame
+s1 = "SELECT    "
