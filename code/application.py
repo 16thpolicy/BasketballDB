@@ -104,7 +104,7 @@ while(exit_):
                     player_name_replace = player_name.replace(",","")
                     final_player_name = player_name_replace.replace("'","")
                     #overall_per = Bball.find_overall_per(final_player_name)
-                    
+                    #wtf
                     #print("Average player efficiency: {}".format(overall_per))
                     
                 print("returning to main menu\n")
