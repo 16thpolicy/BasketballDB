@@ -5,7 +5,11 @@ connection_string = "host='localhost' dbname='database_final' user='database_fin
 
 Bball = database.Basketball(connection_string)
 
-print(Bball.player_draft("Marvin Delph"))
+k = Bball.player_draft("Marvin Williams")[0]
+print(k[0])
+
+print(Bball.searchplayers("Marvin"))
+
 
 print("This program will tell you some specific information about basketball, players and coaches")
 exit_ = 1
@@ -76,10 +80,18 @@ while(exit_):
                 if(p_info_choice==1):
                     print("[input season stats here]")
                 elif(p_info_choice==2):
-                    print("[draft info here]")
+                    info = Bball.player_draft(namelist[p_number-1])[0]
+                    print("\n%s was drafted from %s in year %d"%(namelist[p_number-1],info[1],info[0]))
                 elif(p_info_choice==3):
-                    print("[team info here]")
+                    print("\n%s played for "%(namelist[p_number-1]),end='')
+                    teams =Bball.teamsplayed(namelist[p_number-1])
+                    for i in range(len(teams)):
+                        if(i==len(teams)-1):
+                            print("and %s"%(teams[i][0]))
+                        else:
+                            print("%s, "%(teams[i][0]),end='')
                 elif(p_info_choice==4):
+                    print(Bball.find_overall_per("Marvin Barnes"))
                     print("[overall per here]")
                 print("returning to main menu\n")
                 MM=0
