@@ -37,7 +37,8 @@ class Basketball():
     
     def searchcoaches(self,partofname):
         p = partofname.replace("'","\\'")
-        query = "Select DISTINCT full_name FROM draft, coaches WHERE LOWER(full_name) LIKE LOWER('%%%s%%') AND coach_id = player_id ORDER BY full_name ASC"        
+        query = "Select DISTINCT full_name FROM draft, coaches WHERE LOWER(full_name) LIKE LOWER('%%%s%%') AND coach_id = player_id ORDER BY full_name ASC"
+        cursor = self.conn.cursor()
         cursor.execute(query%(p))
         coach_names = cursor.fetchall()
         return coach_names

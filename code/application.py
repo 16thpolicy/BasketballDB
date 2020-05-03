@@ -116,7 +116,7 @@ while(exit_):
             coach = str(input("\nWhich coach do you want to search for? (Enter any part of a name)\n=> "))
             
             #remember to steralize input and change case-senitivity using Lower
-            namelist = Bball.searchplayers(coach) #return list of coach names LIKE given string
+            namelist = Bball.searchcoaches(coach) #return list of coach names LIKE given string
             namelistrange = range(1,len(namelist)+1)
             if(len(namelistrange) == 0): #if there doesn't exist players
                 print("Sorry I cannot find any coaches of similar name, try again.")
@@ -125,7 +125,7 @@ while(exit_):
             p_number = 0
             while(p_number==0 and MM):
                 for i in namelistrange: #prints out names
-                    print(" %d) %s"%(i,namelist[i-1]))
+                    print(" %d) %s"%(i,namelist[i-1][0]))
                 print(" %d) Main Menu"%(len(namelist)+1))
                 try: #user selects player
                     p_number = int(input("\nWhich coach would you like to explore? (Enter an integer)\n=> "))

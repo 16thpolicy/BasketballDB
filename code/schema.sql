@@ -43,7 +43,7 @@ CREATE TABLE coaches(
 
 CREATE TABLE season(
     num varchar(10),
-    year_ int(10),
+    year_ Int,
     player_name varchar(127),
     position varchar(10),
     age_ varchar(10),
