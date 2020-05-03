@@ -4,7 +4,10 @@ import os
 connection_string = "host='localhost' dbname='database_final' user='database_final_user' password='database_final'"
 
 Bball = database.Basketball(connection_string)
- 
+
+print(Bball.player_draft("Marvin Delph"))
+
+print("This program will tell you some specific information about basketball, players and coaches!")
 exit_ = 1
 while(exit_):
     category = 0
@@ -34,7 +37,7 @@ while(exit_):
             p_number = 0
             while(p_number==0 and MM):
                 for i in namelistrange: #prints out names
-                    print(" %d) %s"%(i,namelist[i-1][0]))
+                    print(" %d) %s"%(i,namelist[i-1]))
                 print(" %d) Main Menu"%(len(namelist)+1))
                 try: #user selects player
                     p_number = int(input("\nWhich player would you like to explore? (Enter an integer)\n=> "))
@@ -104,7 +107,7 @@ while(exit_):
                     player_name_replace = player_name.replace(",","")
                     final_player_name = player_name_replace.replace("'","")
                     #overall_per = Bball.find_overall_per(final_player_name)
-                    #wtf
+                    
                     #print("Average player efficiency: {}".format(overall_per))
                     
                 print("returning to main menu\n")
@@ -116,7 +119,7 @@ while(exit_):
             coach = str(input("\nWhich coach do you want to search for? (Enter any part of a name)\n=> "))
             
             #remember to steralize input and change case-senitivity using Lower
-            namelist = Bball.searchcoaches(coach) #return list of coach names LIKE given string
+            namelist = Bball.searchplayers(coach) #return list of coach names LIKE given string
             namelistrange = range(1,len(namelist)+1)
             if(len(namelistrange) == 0): #if there doesn't exist players
                 print("Sorry I cannot find any coaches of similar name, try again.")
@@ -125,7 +128,7 @@ while(exit_):
             p_number = 0
             while(p_number==0 and MM):
                 for i in namelistrange: #prints out names
-                    print(" %d) %s"%(i,namelist[i-1][0]))
+                    print(" %d) %s"%(i,namelist[i-1]))
                 print(" %d) Main Menu"%(len(namelist)+1))
                 try: #user selects player
                     p_number = int(input("\nWhich coach would you like to explore? (Enter an integer)\n=> "))
@@ -190,10 +193,13 @@ while(exit_):
                         print("{}".format(answer))
                         
                 elif(p_info_choice==4):
-                    #Bball.coach_teach_most_hof()
-                    pass
+                    ans = Bball.coach_teach_most_hof()
+                    print(ans)
                 elif(p_info_choice==5):
-                    print("[overall per here]")
+                    year1 = str(input("\nStarting year? (Enter year)\n=> "))
+                    year2 = str(input("\nEnding year? (Enter year)\n\n=> "))
+                    ans = Bball.coach_teach_most_hof_year(year1,year2)
+                    print(ans)
                     
                 elif(p_info_choice==6):
                     print("[overall per here]")
