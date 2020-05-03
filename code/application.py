@@ -4,9 +4,7 @@ import os
 connection_string = "host='localhost' dbname='database_final' user='database_final_user' password='database_final'"
 
 Bball = database.Basketball(connection_string)
-
-
-print("This program will tell you some specific information about basketball, players and coaches")
+ 
 exit_ = 1
 while(exit_):
     category = 0
@@ -20,7 +18,7 @@ while(exit_):
             print("Invalid: not a number please select again\n")
     MM = 1
     if(category==3):
-        exit_=0
+        exit_ = 0
         continue
     elif(category==1): #player
         player = ''
@@ -36,7 +34,7 @@ while(exit_):
             p_number = 0
             while(p_number==0 and MM):
                 for i in namelistrange: #prints out names
-                    print(" %d) %s"%(i,namelist[i-1]))
+                    print(" %d) %s"%(i,namelist[i-1][0]))
                 print(" %d) Main Menu"%(len(namelist)+1))
                 try: #user selects player
                     p_number = int(input("\nWhich player would you like to explore? (Enter an integer)\n=> "))
@@ -59,35 +57,56 @@ while(exit_):
                     print(" 2) When and where was %s drafted"%(namelist[p_number-1]))
                     print(" 3) Which teams %s played for"%(namelist[p_number-1]))
                     print(" 4) Overall PER")
-                    print(" 5) Main Menu")
+                    print(" 5) Was %s in the Hall Of Fame? If so what year was he inducted?" % (namelist[p_number-1]))
+                    print(" 6) Main Menu")
                     try:
                         p_info_choice = int(input("=> "))
-                        if(p_info_choice == 5):
+                        if(p_info_choice == 6):
                             MM=0
                             continue
-                        elif(p_info_choice not in range(1,6)):
+                        elif(p_info_choice not in range(1,7)):
                             print("Invalid: selected number is not within range of choices")
                             p_info_choice =0
                             continue
                     except:
                         print("Invalid: value entered was not a number")
                         continue
-                if(p_info_choice==1):
-                    print("[input season stats here]")
-                elif(p_info_choice==2):
-                    info = Bball.player_draft(namelist[p_number-1])[0]
-                    print("\n%s was drafted from %s in year %d"%(namelist[p_number-1],info[1],info[0]))
+                if(p_info_choice == 1):
+                    year = str(input("\nWhat season year do you want to search for? (Enter year)\n=> "))
+                    player_name = str(namelist[p_number-1])[1:-1]
+                    player_name_replace = player_name.replace(",","")
+                    final_player_name = player_name_replace.replace("'","")
+                    
+                    season_search = Bball.seasonstat(final_player_name,year)
+                    print("{}".format(season_search))
+                    
+                elif(p_info_choice == 2):
+                    player_name = str(namelist[p_number-1])[1:-1]
+                    player_name_replace = player_name.replace(",","")
+                    final_player_name = player_name_replace.replace("'","")
+                    draft_print = Bball.player_draft(final_player_name)
+                    print("College/High School: {} Draft Year: {}".format(draft_print[0][0],draft_print[0][1]))
+                    
                 elif(p_info_choice==3):
-                    print("\n%s played for "%(namelist[p_number-1]),end='')
-                    teams =Bball.teamsplayed(namelist[p_number-1])
-                    for i in range(len(teams)):
-                        if(i==len(teams)-1):
-                            print("and %s"%(teams[i][0]))
-                        else:
-                            print("%s, "%(teams[i][0]),end='')
+                    player_name = str(namelist[p_number-1])[1:-1]
+                    player_name_replace = player_name.replace(",","")
+                    final_player_name = player_name_replace.replace("'","")
+                    teams_played_on = Bball.teamsplayed(final_player_name)
+                    print("Played on {} team(s)! Teams {} played on ".format(len(teams_played_on),final_player_name))
+                    for i in range(len(teams_played_on)):
+                        ans = str(teams_played_on[i]).replace("('","")
+                        answer = ans.replace("',)","")
+                        print("{}".format(answer))
+                    
+                    
                 elif(p_info_choice==4):
-                    print(Bball.find_overall_per("Marvin Barnes"))
-                    print("[overall per here]")
+                    player_name = str(namelist[p_number-1])[1:-1]
+                    player_name_replace = player_name.replace(",","")
+                    final_player_name = player_name_replace.replace("'","")
+                    #overall_per = Bball.find_overall_per(final_player_name)
+                    
+                    #print("Average player efficiency: {}".format(overall_per))
+                    
                 print("returning to main menu\n")
                 MM=0
 
@@ -172,9 +191,10 @@ while(exit_):
                         
                 elif(p_info_choice==4):
                     #Bball.coach_teach_most_hof()
-                    
+                    pass
                 elif(p_info_choice==5):
                     print("[overall per here]")
+                    
                 elif(p_info_choice==6):
                     print("[overall per here]")
                     
