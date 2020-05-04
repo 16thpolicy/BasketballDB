@@ -51,7 +51,7 @@ CREATE TABLE season(
     games varchar(10),
     games_started varchar(10),
     minute_played varchar(10),
-    player_efficiency varchar(10),
+    player_efficiency NUMERIC(4,2),
     true_shooting varchar(15),
     three_point_attempt_percentage varchar(15),
     freethrow_percentage varchar(15),

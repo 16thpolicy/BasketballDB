@@ -52,6 +52,8 @@ def main():
         for j in reader:
             if(j[1].isalnum()):
                 j[2] = j[2].replace("*","")
+                if(not j[9].isalnum()):
+                    j[9] = 0
                 cursor.execute("INSERT INTO season VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)",j)
     i.close()
     conn.commit()

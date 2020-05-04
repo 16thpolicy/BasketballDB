@@ -200,8 +200,38 @@ class Basketball():
         else:
             return False
 
+    def players_coached_season(self,coach,year):
+        c = coach.replace("'","\\'")    
+        s3 = "SELECT season.player_name\
+            FROM (SELECT coaches.team_id, year_ \
+                FROM coaches, draft \
+                WHERE player_id = coach_id\
+                AND year_ = %d \
+                AND LOWER(full_name) = LOWER('%s')\
+                ORDER BY team_id, year_) as q1, season\
+            WHERE q1.year_ = season.year_\
+            AND q1.team_id = season.team_id \
+            ORDER BY season.player_name ASC"%(year,c)
+        cursor = self.conn.cursor()
+        cursor.execute(s3)
+        players = cursor.fetchall()
+        return players
 
+#given coach name determine how many HOF players they have coached
+query = "SELECT hof.full_name\
+        FROM (SELECT DISTINCT ON (season.player_name) season.player_name, coaches.team_id, coaches.year_\
+            FROM coaches, draft, season\
+            WHERE player_id = coach_id\
+            AND LOWER(full_name) = LOWER('ISIAH THOMAS')\
+            AND season.year_ = coaches.year_\
+            AND season.team_id = coaches.team_id\
+            ORDER BY season.player_name ASC)\
+        as all_p,\
+            (SELECT d.full_name, d.player_id \
+            FROM draft as d, hall_of_fame as h \
+            WHERE d.full_name = h.name)\
+        as hof\
+        WHERE LOWER(hof.full_name) = LOWER(all_p.player_name)"
 
 s = "SELECT d.full_name, d.player_id FROM draft as d, hall_of_fame as h WHERE d.full_name = h.name;"
 #returns list of names in hall of fame
-s1 = "SELECT    "

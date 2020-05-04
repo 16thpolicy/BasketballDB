@@ -5,7 +5,7 @@ connection_string = "host='localhost' dbname='database_final' user='database_fin
 
 Bball = database.Basketball(connection_string)
 
-print(Bball.player_draft("Marvin Delph"))
+print(Bball.players_coached_season("ISIAH THOMAS",2006))
 
 print("This program will tell you some specific information about basketball, players and coaches!")
 exit_ = 1
