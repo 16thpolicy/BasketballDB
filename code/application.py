@@ -60,7 +60,7 @@ while(exit_):
                     print("\nWhich of these information would you like to know? (Enter an integer): ")
                     print(" 1) Enter a season for stat information")
                     print(" 2) When and where was %s drafted"%(namelist[p_number-1]))
-                    print(" 3) Which teams %s played for"%(namelist[p_number-1]))
+                    print(" 3) Which team(s) %s played for"%(namelist[p_number-1]))
                     print(" 4) Was %s in the Hall Of Fame? If so what year was he inducted?" % (namelist[p_number-1]))
                     print(" 5) Main Menu")
                     try:
@@ -123,7 +123,7 @@ while(exit_):
             namelistrange = range(1,len(namelist)+1)
             if(len(namelistrange) == 0): #if there doesn't exist players
                 print("Sorry I cannot find any coaches of similar name, try again.")
-                player = ''
+                coach = ''
                 continue #return to while loop to try again
             p_number = 0
             while(p_number==0 and MM):
