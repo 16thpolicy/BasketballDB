@@ -37,6 +37,9 @@ class Basketball():
         cursor.execute(query)
         return cursor.fetchall()
 
+    def coach_range(self,coach):
+        query = "SELECT MIN(year_), MAX(year_) FROM draft, coaches WHERE draft.player_id = coaches_id AND LOWER(player_id) = LOWER('%s')"
+
     def searchcoaches(self,partofname):
             p = partofname.replace("'","\\'")
             query = "Select DISTINCT full_name FROM draft, coaches WHERE LOWER(full_name) LIKE LOWER('%%%s%%') AND coach_id = player_id ORDER BY full_name ASC"

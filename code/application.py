@@ -8,7 +8,6 @@ Bball = database.Basketball(connection_string)
 print(Bball.players_coached_season("ISIAH THOMAS",2006))
 print(Bball.amount_of_hof_coached("ISIAH THOMAS"))
 
-
 print("This program will tell you some specific information about basketball, players and coaches!")
 exit_ = 1
 while(exit_):
@@ -109,7 +108,6 @@ while(exit_):
                         print("\n%s was inducted into the Hall of fame in %d"%(namelist[p_number-1][0],year[0][0]))
                     else:
                         print("\n%s is not a Hall of Famer"%(namelist[p_number-1][0]))
-                    
                 print("returning to main menu\n")
                 MM=0
 
@@ -117,7 +115,6 @@ while(exit_):
         coach = ''
         while(coach == '' and MM):
             coach = str(input("\nWhich coach do you want to search for? (Enter any part of a name)\n=> "))
-            
             #remember to steralize input and change case-senitivity using Lower
             namelist = Bball.searchcoaches(coach) #return list of coach names LIKE given string
             namelistrange = range(1,len(namelist)+1)
@@ -142,30 +139,31 @@ while(exit_):
                         continue
                 except:
                     print("Invalid: value entered was not a number")
-                    continue
+                    continue 
                 p_info_choice = 0
                 #prob another while loop
                 while(p_info_choice == 0 and MM):
                     print("\nWhich of these information would you like to know? (Enter an integer): ")
-                    print(" 1) Enter a season for stat information about the coach as a player")
-                    print(" 2) When and where was %s drafted"%(namelist[p_number-1]))
-                    print(" 3) What teams did %s play on? "%(namelist[p_number-1]))
-                    print(" 4) Which coach taught the highest number of hall of fame players?")
-                    print(" 5) Was %s in the Hall Of Fame? If so what year was he inducted?" % (namelist[p_number-1]))
-                    print(" 6) Main Menu")
+                    print(" 1) Who has %s coached in a specific season?"%(namelist[p_number-1][0]))
+                    print(" 2) Which teams did %s coached? "%(namelist[p_number-1][0]))
+                    print(" 3) How many Hall of Famers did %s coached?"%(namelist[p_number-1][0]))
+                    print(" 4) Main Menu")
                     try:
                         p_info_choice = int(input("=> "))
-                        if(p_info_choice == 6):
+                        if(p_info_choice == 4):
                             MM = 0
                             continue
-                        elif(p_info_choice not in range(1,7)):
+                        elif(p_info_choice not in range(1,4)):
                             print("Invalid: selected number is not within range of choices")
-                            p_info_choice =0
+                            p_info_choice = 0
                             continue
                     except:
                         print("Invalid: value entered was not a number")
                         continue
                 if(p_info_choice == 1):
+
+                    
+
                     year = str(input("\nWhat season year do you want to search for? (Enter year)\n=> "))
                     coach_name = str(namelist[p_number-1])[1:-1]
                     coach_name_replace = coach_name.replace(",","")
