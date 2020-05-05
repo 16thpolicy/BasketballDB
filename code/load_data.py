@@ -61,6 +61,14 @@ def main():
     conn.commit()
     
     
+    # load team abbrev
+    with open('datasets/teams.csv','r') as i:
+        reader = csv.reader(i)
+        next(i)
+        for j in reader:
+            cursor.execute("INSERT INTO teams VALUES (%s, %s, %s)",j)
+        i.close()
+        conn.commit()
     
 
     # query_1 = "Select * from draft"
@@ -83,3 +91,10 @@ if __name__ == "__main__":
     conn.commit()
     
     main()
+    
+    
+    
+    
+    
+
+    
