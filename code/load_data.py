@@ -54,6 +54,8 @@ def main():
                 j[2] = j[2].replace("*","")
                 if(not j[9].isalnum()):
                     j[9] = 0
+                if(not j[4].isalnum()):
+                    j[4]='Unknown'
                 cursor.execute("INSERT INTO season VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)",j)
     i.close()
     conn.commit()

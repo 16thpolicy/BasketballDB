@@ -93,8 +93,8 @@ CREATE TABLE season(
     steals varchar(10),
     blocks varchar(10),
     turnovers varchar(10),
-    points varchar(10),
-    personal_fouls varchar(10)
+    personal_fouls varchar(10),
+    points Int
 );
 
 CREATE TABLE master_1(
