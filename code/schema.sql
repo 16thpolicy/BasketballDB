@@ -7,14 +7,14 @@ DROP TABLE IF EXISTS teams CASCADE;
 
 
 CREATE TABLE hall_of_fame(
-    year_ numeric(4,0),
+    year_ INT,
     hall_of_fame_id varchar(25),
     name varchar(127),
     category varchar(15)
 );
 
 CREATE TABLE draft(
-    draft_year numeric(4,0),
+    draft_year INT,
     draft_round Int,
     draft_selection Int,
     draft_overall Int,
@@ -30,7 +30,7 @@ CREATE TABLE draft(
 
 CREATE TABLE coaches(
     coach_id varchar(30),
-    year_ numeric(4,0),
+    year_ INT,
     team_id varchar(5),
     league_id varchar(5),
     stint Int,
@@ -107,12 +107,8 @@ CREATE TABLE master_1(
 CREATE TABLE teams(
     team_name varchar(127),
     team_abbrev varchar(10),
-    team_year varchar(10)
+    team_year INT
 );
 
 
 GRANT ALL PRIVILEGES ON master_1, season, draft, hall_of_fame, teams, coaches TO database_final_user;
-
-
-
-

@@ -7,20 +7,6 @@ class Basketball():
     def __init__(self, connection_string):
         self.conn = psycopg2.connect(connection_string)
 
-    def was_player(self, coach_name):
-        #given coach_name return True if that coach was a player otherwise False
-        coach = coach_name.lower()
-        query = "Select player_name From season Where LOWER(player_name) = %s"
-        cursor = self.conn.cursor()
-        cursor.execute(query%(coach))
-        first_row = cursor.fetchone()
-        if len(first_row) != 0:
-            return True
-        else:
-            return False
-#explore HERE^
-
-
     def searchplayers(self, player):
         #given part of a player_name use LIKE to find all names containing '%player%'
         #returns a list of player names in alphabetical decending order
@@ -38,14 +24,18 @@ class Basketball():
         return cursor.fetchall()
 
     def coach_range(self,coach):
-        query = "SELECT MIN(year_), MAX(year_) FROM draft, coaches WHERE draft.player_id = coaches_id AND LOWER(player_id) = LOWER('%s')"
+        nam = coach.replace("'","\\'")
+        query = "SELECT MIN(year_), MAX(year_) FROM draft, coaches WHERE draft.player_id = coach_id AND LOWER(full_name) = LOWER('%s')"%(nam)
+        cursor = self.conn.cursor()
+        cursor.execute(query)
+        return cursor.fetchall()
 
     def searchcoaches(self,partofname):
-            p = partofname.replace("'","\\'")
-            query = "Select DISTINCT full_name FROM draft, coaches WHERE LOWER(full_name) LIKE LOWER('%%%s%%') AND coach_id = player_id ORDER BY full_name ASC"
-            cursor = self.conn.cursor()
-            cursor.execute(query%(p))
-            return cursor.fetchall()
+        p = partofname.replace("'","\\'")
+        query = "Select DISTINCT full_name FROM draft, coaches WHERE LOWER(full_name) LIKE LOWER('%%%s%%') AND coach_id = player_id ORDER BY full_name ASC"
+        cursor = self.conn.cursor()
+        cursor.execute(query%(p))
+        return cursor.fetchall()
     
     def seasonstat(self,player,year):
         #given year and player
@@ -75,15 +65,9 @@ class Basketball():
         #given a playername return list of teams alphabetical order desc of all teams they were in
         cursor = self.conn.cursor();
         p=player.replace("'","\\'")
-        query = "SELECT DISTINCT team_id AS Team FROM season WHERE Season.player_name = '%s' ORDER BY Team DESC"
-        cursor.execute(query%(p))
-        return cursor.fetchall()
-    
-    def find_overall_per(self,player):
-        #given player name return overall per
-        cursor = self.conn.cursor();
-        p=player.replace("'","\\'")
-        query = "SELECT AVG(season.player_efficiency) FROM season WHERE season.player_name = '%s'"
+        query = "SELECT team_name FROM (\
+        SELECT DISTINCT ON(team_id) team_id, year_ FROM season WHERE Season.player_name = '%s' ORDER BY team_id DESC\
+        ) as s1, teams WHERE team_abbrev = s1.team_id AND team_year = s1.year_"
         cursor.execute(query%(p))
         return cursor.fetchall()
     
@@ -111,12 +95,25 @@ class Basketball():
         cursor = self.conn.cursor()
         cursor.execute(s3)
         return cursor.fetchall()
+    
+    def teams_coached(self,coach):
+        nam = coach.replace("'","\\'")
+        s = "SELECT team_name\
+        FROM (SELECT DISTINCT ON(coaches.team_id) coaches.team_id,coaches.year_\
+            FROM coaches,draft\
+            WHERE draft.full_name = '%s' AND draft.player_id = coach_id)\
+        as s, teams\
+        WHERE team_abbrev = s.team_id AND team_year = s.year_"%(nam)
+        cursor = self.conn.cursor()
+        cursor.execute(s)
+        return cursor.fetchall()
+
 
     #given coach name determine how many HOF players they have coached
-    def amount_of_hof_coached(self, coach_name):
+    def hof_coached(self, coach_name):
         cn = coach_name.replace("'","\\'")
         cursor = self.conn.cursor()
-        query = "SELECT COUNT(hof.full_name)\
+        query = "SELECT hof.full_name\
                 FROM (SELECT DISTINCT ON (season.player_name) season.player_name, coaches.team_id, coaches.year_\
                     FROM coaches, draft, season\
                     WHERE player_id = coach_id\
@@ -129,7 +126,8 @@ class Basketball():
                     FROM draft as d, hall_of_fame as h \
                     WHERE d.full_name = h.name)\
                 as hof\
-                WHERE LOWER(hof.full_name) = LOWER(all_p.player_name)"%(coach_name)
+                WHERE LOWER(hof.full_name) = LOWER(all_p.player_name)\
+                ORDER BY hof.full_name ASC"%(coach_name)
         cursor.execute(query)
         return cursor.fetchall()
     

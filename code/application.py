@@ -5,10 +5,7 @@ connection_string = "host='localhost' dbname='database_final' user='database_fin
 
 Bball = database.Basketball(connection_string)
 
-print(Bball.players_coached_season("ISIAH THOMAS",2006))
-print(Bball.amount_of_hof_coached("ISIAH THOMAS"))
-
-print("This program will tell you some specific information about basketball, players and coaches!")
+print("\nThis program will tell you some specific information about basketball, players and coaches!")
 exit_ = 1
 while(exit_):
     category = 0
@@ -80,7 +77,7 @@ while(exit_):
                     while(not player_stat_year):
                         try:
                             player_stat_year = int(input("\n%s was active from %d to %d (Enter year)\n=> "%(namelist[p_number-1][0],active_range[0],active_range[1])))
-                            if(not player_stat_year in range(active_range[0],active_range[1])):
+                            if(not player_stat_year in range(active_range[0],active_range[1]+1)):
                                 print("Invalid: selected year is not within range of choices")
                                 player_stat_year=0
                         except:
@@ -146,13 +143,12 @@ while(exit_):
                     print("\nWhich of these information would you like to know? (Enter an integer): ")
                     print(" 1) Who has %s coached in a specific season?"%(namelist[p_number-1][0]))
                     print(" 2) Which teams did %s coached? "%(namelist[p_number-1][0]))
-                    print(" 3) How many Hall of Famers did %s coached?"%(namelist[p_number-1][0]))
+                    print(" 3) Which Hall of Famers did %s coached?"%(namelist[p_number-1][0]))
                     print(" 4) Main Menu")
                     try:
                         p_info_choice = int(input("=> "))
                         if(p_info_choice == 4):
                             MM = 0
-                            continue
                         elif(p_info_choice not in range(1,4)):
                             print("Invalid: selected number is not within range of choices")
                             p_info_choice = 0
@@ -161,60 +157,44 @@ while(exit_):
                         print("Invalid: value entered was not a number")
                         continue
                 if(p_info_choice == 1):
+                    active_range = Bball.coach_range(namelist[p_number-1][0])[0]
+                    coach_year = 0
+                    while(not coach_year):
+                        try:
+                            coach_year = int(input("\n%s was actively coaching from %d to %d (Enter year)\n=> "%(namelist[p_number-1][0],active_range[0],active_range[1])))
+                            if(not coach_year in range(active_range[0],active_range[1]+1)):
+                                print("Invalid: selected year is not within range of choices")
+                                coach_year=0
+                        except:
+                            print("Invalid: value entered was not a number")
+                    players_coached = Bball.players_coached_season(namelist[p_number-1][0],coach_year)
+                    print("During the season of %d, %s coached:"%(coach_year,namelist[p_number-1][0]))
+                    for i in players_coached:
+                        print("- %s"%(i[0]))
 
-                    
-
-                    year = str(input("\nWhat season year do you want to search for? (Enter year)\n=> "))
-                    coach_name = str(namelist[p_number-1])[1:-1]
-                    coach_name_replace = coach_name.replace(",","")
-                    final_coach_name = coach_name_replace.replace("'","")
-                    
-                    season_search = Bball.seasonstat(final_coach_name,year)
-                    print("[{}]".format(season_search))
-                    
                 elif(p_info_choice == 2):
-                    coach_name = str(namelist[p_number-1])[1:-1]
-                    coach_name_replace = str(coach_name).replace(",","")
-                    final_coach_name = coach_name_replace.replace("'","")
-                    draft_print = Bball.player_draft(final_coach_name)
-                    print("College/High School: {} Draft Year: {}".format(draft_print[0][0],draft_print[0][1]))
-                    
+                    teams_coached = Bball.teams_coached(namelist[p_number-1][0])
+                    if(len(teams_coached)==1):
+                        print("\n%s only coached %s"%(namelist[p_number-1][0],teams_coached[0]))
+                    elif(len(teams_coached)>1):
+                        print("\n%s coached multiple teams including:"%(namelist[p_number-1][0]))
+                        for x in teams_coached:
+                            print("- %s"%(x))
+                    else:
+                        print("No data on teams Coached")
+
                 elif(p_info_choice==3):
-                    coach_name = str(namelist[p_number-1])[1:-1]
-                    coach_name_replace = coach_name.replace(",","")
-                    final_coach_name = coach_name_replace.replace("'","")
-                    teams_played_on = Bball.teamsplayed(final_coach_name)
-                    print("Played on {} team(s)! Teams {} played on ".format(len(teams_played_on),final_coach_name))
-                    for i in range(len(teams_played_on)):
-                        ans = str(teams_played_on[i]).replace("('","")
-                        answer = ans.replace("',)","")
-                        print("{}".format(answer))
+                    HOFs = Bball.hof_coached(namelist[p_number-1][0])
+                    if(len(HOFs)==1):
+                        print("\n%s only coached the Hall of Fame player %s"%(namelist[p_number-1][0],HOFs[0]))
+                    elif(len(HOFs)==0):
+                        print("\n%s has never coached a Hall of Fame player"%(namelist[p_number-1][0]))
+                    elif(len(HOFs)>1):
+                        print("\n%s has coached many Hall of Fame players including:"%(namelist[p_number-1][0]))
+                        for y in HOFs:
+                            print("- %s"%(y))
                         
-                elif(p_info_choice==4):
-                    ans = Bball.coach_teach_most_hof()
-                    print(ans)
-                elif(p_info_choice==5):
-                    year1 = str(input("\nStarting year? (Enter year)\n=> "))
-                    year2 = str(input("\nEnding year? (Enter year)\n\n=> "))
-                    ans = Bball.coach_teach_most_hof_year(year1,year2)
-                    print(ans)
-                    
-                elif(p_info_choice==6):
-                    print("[overall per here]")
                     
                 print("returning to main menu\n")
                 MM = 0
-        
-        #if the coach was a player
-            #overall stats as a player
-            #where were they drafted
-            #teams they played for
-        #Did they improve these teams after their first year?:
-            #Difference in PER of players who were in the year before and current year
-
-
-    
-
-    
-
 print("\nThank you for using our program, I hope it was informative!")
