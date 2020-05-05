@@ -2,4 +2,4 @@ https://raw.githubusercontent.com/16thpolicy/BasketballDB/master/code/datasets/b
 https://raw.githubusercontent.com/16thpolicy/BasketballDB/master/code/datasets/basketball_draft.csv
 https://raw.githubusercontent.com/16thpolicy/BasketballDB/master/code/datasets/basketball_coaches.csv
 https://raw.githubusercontent.com/16thpolicy/BasketballDB/master/code/datasets/Seasons_Stats.csv
-
+https://raw.githubusercontent.com/16thpolicy/BasketballDB/master/code/datasets/teams.csv
