@@ -175,7 +175,7 @@ while(exit_):
                 elif(p_info_choice == 2):
                     teams_coached = Bball.teams_coached(namelist[p_number-1][0])
                     if(len(teams_coached)==1):
-                        print("\n%s only coached %s"%(namelist[p_number-1][0],teams_coached[0]))
+                        print("\n%s only coached %s"%(namelist[p_number-1][0],teams_coached[0][0]))
                     elif(len(teams_coached)>1):
                         print("\n%s coached multiple teams including:"%(namelist[p_number-1][0]))
                         for x in teams_coached:

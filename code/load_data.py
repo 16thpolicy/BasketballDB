@@ -68,19 +68,7 @@ def main():
         for j in reader:
             cursor.execute("INSERT INTO teams VALUES (%s, %s, %s)",j)
         i.close()
-        conn.commit()
-    
-
-    # query_1 = "Select * from draft"
-    # cursor.execute(query_1)
-    # print(cursor.fetchone())
-    
-    # example of fetching data
-    #print("finish loading data")
-    # query = "Select * from season Where season.year_ ='2017'"
-    # cursor.execute(query)
-    # rows = cursor.fetchone()
-    # print(rows)
+        conn.commit()s
 
     conn.close()
 if __name__ == "__main__":
